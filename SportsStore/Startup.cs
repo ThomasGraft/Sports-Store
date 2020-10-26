@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using SportsStore.Models;
+using SportsStore.Models.ViewModels;
 
 namespace SportsStore
 {
@@ -38,8 +39,14 @@ namespace SportsStore
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("pagination", "Products/Page{productPage}", 
+                endpoints.MapControllerRoute("catpage", "{category}/Page{productPage:int}", 
                     new { Controller = "Home", action = "Index" });
+                endpoints.MapControllerRoute("page", "Page{productPage:int}", 
+                    new { Controller = "Home", action = "Index", productPage = 1 });
+                endpoints.MapControllerRoute("category", "{category}",
+                    new { Controller = "Home", action = "Index", prodeuctPage = 1 });
+                endpoints.MapControllerRoute("pagination", "Products/Page{productPage}",
+                    new { Controller = "Home", action = "Index", productPage = 1 });
                 endpoints.MapDefaultControllerRoute();
             });
             SeedData.EnsurePopulated(app);
